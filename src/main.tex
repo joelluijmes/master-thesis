@@ -5,6 +5,7 @@
 \addbibresource{9_references-scholar.bib}
 \addbibresource{9_references-other.bib}
 
+\usepackage{amsmath}
 \usepackage[margin=1in]{geometry}
 \usepackage{hyperref}
 \usepackage{booktabs}
@@ -18,7 +19,11 @@
 \usepackage{subfig}
 \usepackage{csquotes}
 \usepackage{float}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{adjustbox}
 
+\definecolor{light-gray}{gray}{0.95}
 \definecolor{darkblue}{rgb}{0, 0, 0.5}
 \hypersetup{colorlinks=true,citecolor=darkblue, linkcolor=darkblue, urlcolor=darkblue}
 
@@ -31,6 +36,8 @@
 % \bibliographystyle{IEEEtranN}
 
 \newcommand{\authorref}[1]{\citeauthor*{#1} \cite{#1}}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+
 
 \setcounter{tocdepth}{2}
 
