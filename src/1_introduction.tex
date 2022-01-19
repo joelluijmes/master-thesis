@@ -35,6 +35,9 @@ The condition of the road is measured through various quantifiable data sources.
 \end{itemize}
 \end{itemize}
 
+\subsection{AssetWorx}
+\label{sec:assetworx}
+
 Keeping track of these various sources of data is cumbersome. Although many road owners manage this data manually, there are some tools to support their workflow. These software tools are known as ``asset management software'' or ``management systems''. One of the available tools on market is Predictive Road Maintenance (PRM), a platform for data driven asset management (see figure \ref{fig:prm}) developed by AssetWorx\footnote{Pronounced as Asset Works}, where the use cases of this thesis is derived. PRM was initially developed during an incubator program known as ``Startup in Residence'' funded by the Overijssel province \cite{Residense2020}. The goal of AssetWorx is to create an uniform data platform for asset management. The idea is to be a industry disrupter by providing data driven insights concerning road quality, maintenance and planning as an independent organization. 
 
 \begin{figure}[ht]
@@ -56,14 +59,13 @@ AssetWorx aims to systematically and continuously collect data of all roads inst
 
 Although automated defect detection have societal and business value, it is scientifically not something new. However, as found from literature survey, existing research only utilizes a single source of data (unimodal) to detect damages. For this research, we are collecting various types of data: camera, accelerometer, and GPS. Multimodal fusion aims to integrate data of different sources and types in a unified representation \cite{Baltrusaitis2017}. The idea is that by fusion richer information is provided than a single modality can provide. For example, damages may be detected with images, but it is difficult to assess the severity of that damage due lack of depth information. By fusing vibration data from the accelerometer, an additional dimension is added which could describe the severity of a damage. Within existing literature on road defects detection, multimodal fusion has not been applied. Fusion of accelerometer and visual data is largely researched in the context of odometry / robot navigation.
 
-However, fusion of visual and accelerometer data proposes an interesting challenge in this context. The camera is facing towards the road, and therefore sees an object in advance at timestamp $t_{visual}$. However, at some later point the vibrations are measured at timestamp $t_{accelerometer}$. Between these sensors there is some delay $\tau$. This delay is composed of two additive delays: $\tau = \tau_{capture} + \tau_{detection}$. $\tau_{capture}$ refers to the delay between capturing visual and accelerometer data, it is expected that there is a very small delay. $\tau_{detection}$ refers to the earlier mentioned problem that an object is detected in advance, before the accelerometer measures that event. The latter delay is variable and depends on the angle of the camera, and the travelling speed. To the best of my knowledge, this problem never has been researched and poses an interesting scientific contribution.
+However, fusion of visual and accelerometer data proposes an interesting challenge in this context. The camera is facing towards the road, and therefore sees an object in advance at timestamp $t_{visual}$. However, at some later point the vibrations are measured at timestamp $t_{accelerometer}$. Between these sensors there is some delay $\tau$. This delay is composed of two additive delays: $\tau = \tau_{capture} + \tau_{detection}$. $\tau_{capture}$ refers to the delay between capturing visual and accelerometer data, it is expected that there is a very small delay. $\tau_{detection}$ refers to the earlier mentioned problem that an object is detected in advance, before the accelerometer measures that event. The latter delay is variable and depends on the angle of the camera, and the travelling speed.
 
 \begin{figure}[ht]
     \begin{center}
     \includegraphics[width=0.95\textwidth]{images/1_introduction/setup-schema.png}
-	\includegraphics[width=0.95\textwidth,keepaspectratio]{images/2_literature/time-line-synchonization.png}
-    \end{center}
-    \captionsetup{width=.95\textwidth}
+	\end{center}
+    \captionsetup{width=.90\textwidth}
     \caption{Illustration of the setup of collecting data.}
     \label{fig:time-synchronization}
 \end{figure}
@@ -86,38 +88,15 @@ To answer this question, we divided the question into smaller parts. From quick 
 \item \textit{SQ2: What is the state of art in machine learning pipelines using accelerometer data to classify road surface anomalies?}
 \end{itemize}
 
-Combining visual and accelerometer data only works when both sources are synchronized correctly. As previously mentioned, the problem is that the same event (i.e., defect) is registered with some delay $\tau$ between the data sourced, see figure \ref{fig:time-synchronization} above. In order to correctly combine these sources, we need to find a method to calculate this delay. Therefore the last sub research question is:
-
-\begin{itemize}
-\item \textit{SQ3: How can visual data and accelerometer data be synchronized?}
-\end{itemize}
-
-To answer this question, a novel method is designed to automatically calculate this delay. With the synchronized sources, we test the combined pipeline. The final answer to the RQ is evaluated based on the empirical results. When we observe that the classification accuracy of the pipeline with combined data is higher than that of either unimodal pipeline, we can conclude that combining the sources was successful. If the accuracy is lower, we need to dig into the data to understand how future research can address this problem.
+The final answer to the RQ is evaluated based on the empirical results. When we observe that the classification accuracy of the pipeline with combined data is sufficient, we can conclude that combining both sources was successful.
 
 
 \subsection{Contributions}
 
-TODO
+This thesis provides interesting contributions, both scientifically from the performed research, and business value from the developed application. First of all, this is the first research to combine both visual and accelerometer data to detect road surface anomalies. The effect of combining sources is rigorously evaluated by comparing the difference in accuracy between combined pipeline and of the respective unimodal pipelines. When the combined pipelines perform adequately we expect a higher performance than when a single data source is used. Additionally, it allows to perform classifications when only one source of data is available. 
 
-This thesis provides interesting contributions, both scientifically from the performed research, and business value from the developed application. First of all, this is the first research to combine both visual and accelerometer data to detect road surface anomalies. Especially interesting is the steps undertaken to synchronize both data sources. The effect of combining sources is rigorously evaluated by comparing the difference in accuracy between combined pipeline and of the respective unimodal pipelines. 
-
-The application yields large business value for the company. 
-
+Secondly, current asset management tools only store and organize a single source of data. When the developed model is incorporated into the PRM software, AssetWorx has a competitive advantage. Additionally, with the developed model the maintenance cycle becomes data driven and allows for quicker iterations. In turn, this means that maintainers can act quickly on damages and prevent large costs.
 
 \subsection{Remainder}
 
-TODO
-
-The remainder of this thesis is structured as follows:
-
-\begin{enumerate}
-\addtocounter{enumi}{1}
-\item \textbf{Literature} presents the current literature known on the subject. It answers the theoretical research subquestions 1-3. 
-\item \textbf{Methodology} explains the methodology that is used during this thesis.
-\item \textbf{Data Processing} presents the various data engineering activities required to record and process the data in order to make predictions.
-\item \textbf{Multimodal Fusion} deals with the performed experiments.
-\item \textbf{Discussion} interprets the results.
-\item \textbf{Conclusion} concludes the thesis, and provides some suggestions for future activities.
-
-\end{enumerate}
-
+The remainder of this thesis is structured as follows. In section \ref{sec:related-work} we describe the related work. What currently is known on detecting road surface defects using machine learning. It lays the foundation to answer the two sub research questions. Additionally, it introduces the field of multimodal machine learning. Next, section \ref{sec:background} provides background information on the used techniques. Section \ref{sec:data-processing} describes the method of collecting the data, and preprocessing steps. In section \ref{sec:experimental-design} we describe the various machine learning models that are developed. Subsequently the results of the various models are presented in section \ref{sec:results}. Next in section \ref{sec:discussion} we discuss the results and answer the various research questions. Finally, section \ref{sec:conclusion} provides a summary of the work and concludes our research.

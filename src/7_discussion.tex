@@ -1,0 +1,58 @@
+\clearpage
+\section{Discussion}
+\label{sec:discussion}
+
+This section discusses our findings. First, we interpret and discuss the results of our final model. Next, we reflect on the research questions. Then, we propose future research directions worth pursuing. Finally, we disclose limitations of this work.
+
+\subsection{Results}
+
+In general, the results are good. From the various experiments we observe that the accelerometer based model performs poorly in comparison with the visual model. In addition, from the results of track 3, we can see that the hybrid fused model performs best when it is only provided with visual data. We argue that there are two reasons for this observation.
+
+First of all, during data collection we suffer from partial observability. The visual data captures data from a front faced perspective. This means that the visual data source is able to capture the full context. However, we can only observe the same object with the accelerometer when the object is in the path of the vehicle. This results that the accelerometer data in the segmented dataset contains false positives. Learning from data containing false positives deteriorates precision.
+
+Secondly, the dataset is labelled based on the visual data. This means that the visual data acts as the ground truth. It is therefore expected that the visual model performs best. The accelerometer data is positively labelled based on a heuristic. Within the heuristic there are some improvements that can be made. These will be discussed later as future research ideas.
+
+From the experiments we notice that all models have a high recall. However, this is probably an effect of our dataset setup. Overall, the original dataset is highly imbalanced. In order to train machine learning models, we undersample the training set. In addition, the size of the dataset is relatively low. When provided enough training data, we expect a more balanced trade off between precision and recall. Regardless, we argue that a high recall is preferred when detecting road surface anomalies.
+
+
+\subsection{Research Question}
+
+The main research question is supported by the following two sub research questions:
+
+\begin{itemize}
+\item \textit{SQ1: What is the state of art in machine learning pipelines using object detection to classify road surface anomalies?}
+\item \textit{SQ2: What is the state of art in machine learning pipelines using accelerometer data to classify road surface anomalies?}
+\end{itemize}
+
+The sub research questions are answered in our literature survey in section \ref{sec:related-work}. In summary, we found that there is a lot of research known on detecting road surface defects using visual or accelerometer data. Unfortunately, we are unable to compare our work to existing literature. In the limited time period we were unsuccessful in collecting enough road surface damages to train machine learning models.
+
+In this work the following research question was central. \textit{To what extent can visual object detection and accelerometer data be combined in a multimodal machine learning pipeline to correctly classify road surface anomalies?}
+
+From our method and results, we successfully developed a multimodal machine learning pipeline. Specifically this is achieved with both both hybrid and late fusion. Due the limited dataset we classified manholes instead of actual damages. Regardless, our work contributes a novel method to detect road surface anomalies using multimodal machine learning.
+
+
+\subsection{Future Research}
+
+In this work there are a couple opportunities for further research. First of all, is applying the proposed method to detect actual damages. Due the limited time period of this work it was infeasible to collect enough data.
+
+Second opportunity is improving the method how the dataset is constructed and labelled. Labelling based on the visual data is an easy method. However, as mentioned earlier this also introduces false positives for the accelerometer input due partial observability. For future work, it is advised to reevaluate the heuristic in determining whether the car travels over an object.
+
+Thirdly, this work only evaluated binary classification whether a manhole is present in a segment. Combining visual and accelerometer data however has an additional benefit that is worth pursuing. With visual data we have information about the location of an object, and accelerometer data provides information about the impact on the vehicle. In case of road damages, the accelerometer can describe the severity of the damage. Combining the data sources allows to create a model that can both localize an anomaly - based on visual data, and describe the impact - based on the accelerometer data. 
+
+Finally, generalization of the method is interesting for future research. Current results were only collected with single smartphone and car. Additionally, the results were evaluated on a single type of road. Finally, the data was collected in a single country. The infrastructure in different countries might be different. For future work, it is interesting to see if the results can be replicated in different circumstances.
+
+% Synchronization of data soruces
+
+\subsection{Limitations}
+
+In this work we address the limitations based on the four threats to validity: internal, external, construct, and conclusion. 
+
+\textbf{Internal Validity.} The dataset used in this study is labelled according to the annotated visual frames. It can be assumed that for the visual model the results are valid. Note, annotations can be improved when they are reviewed by a second person. Regardless, based on the visual annotations, we automatically label the data of accelerometer. Due this automatic labelling we introduce false positives which threatens our results for the accelerometer based models.
+
+\textbf{External Validity.} All data was collected with the same smartphone device, device holder and vehicle. Generalizability to other settings might be limited. In this work, care was taken that the data processing steps are generalizable (e.g., the automatic reorientation of the accelerometer axes). Additionally we  expect that the visual data is generalizable. However, a different smartphone or vehicle might report accelerometer data differently.
+
+Secondly, we have only researched the effects on single road type, i.e., asphalt. When generalizing to other types of road, we expect that a different signal on the accelerometer sensor. For instance, road types with more vibrations (i.e., brick pavers) introduce more noise.
+
+\textbf{Construct Validity.} We validated that the multimodal actually learns from the data. We tested this in the last experiment, where we zeroed out either of the input source. The model was still able to make correct classifications.
+
+\textbf{Conclusion Validity.} During our research it was infeasible to perform cross validation due the long training times of the neural networks. In future research it is advised to use cross validation to validate the conclusions.
